@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  _id: String!
+  userName: String!
+  email: String!
+  phoneNumber: String!
+  password: String!
+  address: String!
+  image: String!
+  role: String!
+  identityFrontImage: String!
+  identityBackImage: String!
+  active: Boolean!
+}
+
+type AuthenticatedType {
+  access_token: String!
+}
+
+type Query {
+  getAllUser: [User!]
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
+}
+
+input CreateUserInput {
+  _id: ID = ""
+  userName: String
+  email: String
+  phoneNumber: String
+  password: String
+  address: String = ""
+  image: String = ""
+  role: String = "STUDENT"
+  identityFrontImage: String = ""
+  identityBackImage: String = ""
+  active: Boolean = false
+}
+
+input UserAuthenticateInput {
+  email: String
+  password: String
+}
