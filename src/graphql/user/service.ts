@@ -38,9 +38,9 @@ export class UserService {
     async authenticateUser(authData: UserAuthenticateInput): Promise<{ access_token: string }> {
         try {
             const getUserByEmail = await this.userModel.findOne({ email: authData.email });
-            if (!getUserByEmail) throw { message: 'Email or password is invalid!' };
+            if (!getUserByEmail) throw { message: 'Email or password is incorrect!' };
             const comparePassword = hashBcr.compare(authData.password, getUserByEmail.password);
-            if (!comparePassword) throw { message: 'Email or password is invalid!' };
+            if (!comparePassword) throw { message: 'Email or password is incorrect!' };
             const payload = { sub: getUserByEmail._id, username: getUserByEmail.userName };
             return {
                 access_token: await this.jwtService.signAsync(payload),

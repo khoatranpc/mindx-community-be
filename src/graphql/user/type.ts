@@ -38,6 +38,6 @@ export class User {
 
 @ObjectType()
 export class AuthenticatedType {
-    @Field()
+    @Field({ nullable: true })
     access_token: string;
 }

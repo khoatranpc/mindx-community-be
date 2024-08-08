@@ -17,11 +17,12 @@ type User {
 }
 
 type AuthenticatedType {
-  access_token: String!
+  access_token: String
 }
 
 type Query {
   getAllUser: [User!]
+  getTest: String!
 }
 
 type Mutation {

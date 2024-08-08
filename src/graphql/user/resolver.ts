@@ -2,6 +2,7 @@ import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { UserService } from "./service";
 import { AuthenticatedType, User } from "./type";
 import { CreateUserInput, UserAuthenticateInput } from "./dto";
+import { GraphqlException } from "src/customs/GraphqlException";
 
 @Resolver()
 export class UserResolver {
@@ -11,7 +12,12 @@ export class UserResolver {
     getAllUser() {
         return this.userService.getAllUser();
     }
-
+    @Query(() => String)
+    getTest(): string {
+        throw new GraphqlException({
+            statusCode: 401
+        }, 'test error');
+    }
     @Mutation((returns) => User)
     async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
 
