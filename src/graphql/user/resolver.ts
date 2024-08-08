@@ -38,7 +38,6 @@ export class UserResolver {
     async getUser(@Context() context, @Args('currentUserIdInput') currentUserIdInput: CurrentUserIdInput) {
         const getCrrUser = context.req.user;
         const getUserIdQuery = currentUserIdInput.userId;
-        console.log(getCrrUser);
         return await this.userService.getCrrUser(getCrrUser._id as string, getUserIdQuery);
     }
 }

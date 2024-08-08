@@ -7,6 +7,7 @@ import { JwtService } from "@nestjs/jwt";
 import { hashBcr } from "src/utils";
 import { User } from "./schema";
 import { CreateUserInput, UserAuthenticateInput } from "./dto";
+import { GraphqlException } from "src/customs/GraphqlException";
 
 @Injectable()
 export class UserService {
@@ -58,6 +59,7 @@ export class UserService {
         const crrUser = await this.userModel.findOne({
             _id: new mongoose.Types.ObjectId(userIdQuery ? userIdQuery : crrUserId),
         });
-        return crrUser.toObject()
+        if (!crrUser) throw new GraphqlException({ statusCode: 500 }, 'Not found user!');
+        return crrUser.toObject();
     }
 }

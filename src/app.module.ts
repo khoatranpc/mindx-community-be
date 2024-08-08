@@ -31,6 +31,12 @@ import config from '../config';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       formatError(formattedError,) {
+        if (formattedError.message === 'Unauthorized') {
+          return {
+            message: 'Session login has expired!' ?? 'Unknown error, check me, please!',
+            statusCode: 401
+          }
+        }
         return {
           message: formattedError.message ?? 'Unknown error, check me, please!',
           statusCode: formattedError.extensions?.statusCode ?? 500
