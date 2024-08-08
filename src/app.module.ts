@@ -1,29 +1,31 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphqlException } from './customs/GraphqlException';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserResolver } from './graphql/user/resolver';
-import { Collections } from './global/collection';
-import { UserSchema } from './graphql/user/schema';
-import { UserService } from './graphql/user/service';
+import { PassportModule } from '@nestjs/passport';
+import { UserModule } from './graphql/user/user.module';
+import { AuthModule } from './global/auth/auth.module';
 import config from '../config';
-import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
   imports: [
+    PassportModule,
+    UserModule,
+    AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
     }),
+    PassportModule,
     JwtModule.register({
       global: true,
-      secret: 'KHOADEPTRIA',
-      signOptions: { expiresIn: '60s' },
+      secret: process.env.SECRET_KEY,
+      signOptions: { expiresIn: '60m' },
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -34,6 +36,7 @@ import { JwtModule } from '@nestjs/jwt';
           statusCode: formattedError.extensions?.statusCode ?? 500
         }
       },
+      context: ({ req }) => ({ req }),
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -42,14 +45,8 @@ import { JwtModule } from '@nestjs/jwt';
       }),
       inject: [ConfigService],
     }),
-    MongooseModule.forFeature([
-      {
-        name: Collections.USERS,
-        schema: UserSchema
-      }
-    ])
   ],
   controllers: [AppController],
-  providers: [AppService, UserResolver, UserService],
+  providers: [AppService],
 })
 export class AppModule { }

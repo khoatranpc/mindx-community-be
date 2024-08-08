@@ -4,9 +4,9 @@ import mongoose, { Model } from "mongoose";
 import { GraphQLError } from "graphql";
 import { Collections } from "src/global/collection";
 import { JwtService } from "@nestjs/jwt";
+import { hashBcr } from "src/utils";
 import { User } from "./schema";
 import { CreateUserInput, UserAuthenticateInput } from "./dto";
-import { hashBcr } from "src/utils";
 
 @Injectable()
 export class UserService {
@@ -41,7 +41,7 @@ export class UserService {
             if (!getUserByEmail) throw { message: 'Email or password is incorrect!' };
             const comparePassword = hashBcr.compare(authData.password, getUserByEmail.password);
             if (!comparePassword) throw { message: 'Email or password is incorrect!' };
-            const payload = { sub: getUserByEmail._id, username: getUserByEmail.userName };
+            const payload = { _id: getUserByEmail._id, userName: getUserByEmail.userName };
             return {
                 access_token: await this.jwtService.signAsync(payload),
             }
@@ -52,5 +52,12 @@ export class UserService {
                 }
             });
         }
+    }
+
+    async getCrrUser(crrUserId: string, userIdQuery: string) {
+        const crrUser = await this.userModel.findOne({
+            _id: new mongoose.Types.ObjectId(userIdQuery ? userIdQuery : crrUserId),
+        });
+        return crrUser.toObject()
     }
 }

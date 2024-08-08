@@ -3,17 +3,17 @@
 # ------------------------------------------------------
 
 type User {
-  _id: String!
-  userName: String!
-  email: String!
-  phoneNumber: String!
-  password: String!
-  address: String!
-  image: String!
-  role: String!
-  identityFrontImage: String!
-  identityBackImage: String!
-  active: Boolean!
+  _id: ID!
+  userName: String
+  email: String
+  phoneNumber: String
+  password: String
+  address: String
+  image: String
+  role: String
+  identityFrontImage: String
+  identityBackImage: String
+  active: Boolean
 }
 
 type AuthenticatedType {
@@ -28,6 +28,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
+  getUser(currentUserIdInput: CurrentUserIdInput!): User!
 }
 
 input CreateUserInput {
@@ -47,4 +48,8 @@ input CreateUserInput {
 input UserAuthenticateInput {
   email: String
   password: String
+}
+
+input CurrentUserIdInput {
+  userId: String = ""
 }

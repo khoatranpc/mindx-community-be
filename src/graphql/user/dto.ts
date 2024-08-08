@@ -64,3 +64,14 @@ export class UserAuthenticateInput {
     @Field({ nullable: true })
     password: string;
 }
+
+@InputType()
+export class GetUser {
+    @Field({ nullable: false })
+    access_token: string;
+}
+@InputType()
+export class CurrentUserIdInput {
+    @Field({ nullable: true, defaultValue: '' })
+    userId: string;
+}
