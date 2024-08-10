@@ -47,11 +47,7 @@ export class UserService {
                 access_token: await this.jwtService.signAsync(payload),
             }
         } catch (error) {
-            throw new GraphQLError(error.message, {
-                extensions: {
-                    statusCode: 401
-                }
-            });
+            throw new GraphqlException({ statusCode: 401 }, error.message);
         }
     }
 
@@ -59,7 +55,7 @@ export class UserService {
         const crrUser = await this.userModel.findOne({
             _id: new mongoose.Types.ObjectId(userIdQuery ? userIdQuery : crrUserId),
         });
-        if (!crrUser) throw new GraphqlException({ statusCode: 500 }, 'Not found user!');
+        if (!crrUser) throw new GraphqlException({ statusCode: 401 }, 'Not found user!');
         return crrUser.toObject();
     }
 }
