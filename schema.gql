@@ -66,6 +66,7 @@ input CurrentUserIdInput {
 }
 
 input CreateCourseInput {
+  _id: ID
   name: String
   code: String
   des: String

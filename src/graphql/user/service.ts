@@ -42,7 +42,7 @@ export class UserService {
             if (!getUserByEmail) throw { message: 'Email or password is incorrect!' };
             const comparePassword = hashBcr.compare(authData.password, getUserByEmail.password);
             if (!comparePassword) throw { message: 'Email or password is incorrect!' };
-            const payload = { _id: getUserByEmail._id, userName: getUserByEmail.userName };
+            const payload = { _id: getUserByEmail._id, userName: getUserByEmail.userName, role: getUserByEmail.role };
             return {
                 access_token: await this.jwtService.signAsync(payload),
             }

@@ -3,8 +3,8 @@ import { IsNotEmpty } from "class-validator";
 
 @InputType()
 export class CreateCourseInput {
-    // @Field(() => ID, { nullable: true })
-    // _id: string;
+    @Field(() => ID, { nullable: true })
+    _id: string;
 
     @IsNotEmpty({ message: 'Name of course is required!' })
     @Field({ nullable: true })
