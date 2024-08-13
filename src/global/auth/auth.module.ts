@@ -5,10 +5,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './jwt.strategy';
 import { GqlAuthGuard } from './auth.guard';
 import { UserModule } from 'src/graphql/user/user.module';
+import { CourseModule } from 'src/graphql/course/course.module';
 
 @Module({
     imports: [
         UserModule,
+        CourseModule,
         PassportModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],

@@ -36,6 +36,8 @@ export class User extends Document {
     @Prop({ default: false })
     active: boolean;
 
+    @Prop({ default: false })
+    isDelete: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

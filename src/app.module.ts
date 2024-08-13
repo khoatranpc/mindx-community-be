@@ -4,12 +4,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { MongooseModule } from '@nestjs/mongoose';
+import config from '../config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './graphql/user/user.module';
 import { AuthModule } from './global/auth/auth.module';
-import config from '../config';
+import { CourseModule } from './graphql/course/course.module';
 
 
 @Module({
@@ -17,6 +18,7 @@ import config from '../config';
     PassportModule,
     UserModule,
     AuthModule,
+    CourseModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
@@ -30,7 +32,7 @@ import config from '../config';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
-      formatError(formattedError,) {
+      formatError(formattedError) {
         if (formattedError.message === 'Unauthorized') {
           return {
             message: 'Session login has expired!' ?? 'Unknown error, check me, please!',

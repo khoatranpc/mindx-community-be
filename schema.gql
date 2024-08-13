@@ -20,15 +20,26 @@ type AuthenticatedType {
   access_token: String
 }
 
+type Course {
+  _id: ID!
+  name: String!
+  code: String!
+  des: String!
+  active: Boolean!
+  isDelete: Boolean!
+}
+
 type Query {
   getAllUser: [User!]
   getTest: String!
+  listCourse: [Course!]
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
   getUser(currentUserIdInput: CurrentUserIdInput!): User!
+  createCourse(createCourseInput: CreateCourseInput!): Course
 }
 
 input CreateUserInput {
@@ -52,4 +63,10 @@ input UserAuthenticateInput {
 
 input CurrentUserIdInput {
   userId: String = ""
+}
+
+input CreateCourseInput {
+  name: String
+  code: String
+  des: String
 }
