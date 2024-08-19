@@ -24,7 +24,7 @@ export class User extends Document {
     @Prop({ default: '' })
     image: string;
 
-    @Prop({ type: String })
+    @Prop({ type: String, default: Role.STUDENT })
     role: Role;
 
     @Prop({ required: false, default: '' })

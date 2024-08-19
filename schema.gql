@@ -29,10 +29,24 @@ type Course {
   isDelete: Boolean!
 }
 
+type Mentor {
+  _id: ID
+  userId: ID
+  title: String
+  courses: [ID!]
+  cv: String!
+  approval: Boolean!
+}
+
 type Query {
   getAllUser: [User!]
   getTest: String!
   listCourse: [Course!]
+  getListMentor(conditional: GetListMentorArgs!): [Mentor!]!
+}
+
+input GetListMentorArgs {
+  approval: Boolean
 }
 
 type Mutation {
@@ -40,6 +54,7 @@ type Mutation {
   authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
   getUser(currentUserIdInput: CurrentUserIdInput!): User!
   createCourse(createCourseInput: CreateCourseInput!): Course
+  createMentor(mentor: CreateMenoterInputType!): Mentor
 }
 
 input CreateUserInput {
@@ -70,4 +85,13 @@ input CreateCourseInput {
   name: String
   code: String
   des: String
+}
+
+input CreateMenoterInputType {
+  _id: ID
+  userId: ID
+  title: String
+  courses: [ID!] = []
+  cv: String
+  approval: Boolean! = false
 }

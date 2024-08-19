@@ -11,6 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UserModule } from './graphql/user/user.module';
 import { AuthModule } from './global/auth/auth.module';
 import { CourseModule } from './graphql/course/course.module';
+import { MentorModule } from './graphql/mentor/mentor.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { CourseModule } from './graphql/course/course.module';
     UserModule,
     AuthModule,
     CourseModule,
+    MentorModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],

@@ -6,12 +6,14 @@ import { JwtStrategy } from './jwt.strategy';
 import { GqlAuthGuard } from './auth.guard';
 import { UserModule } from 'src/graphql/user/user.module';
 import { CourseModule } from 'src/graphql/course/course.module';
+import { MentorModule } from 'src/graphql/mentor/mentor.module';
 
 @Module({
     imports: [
         UserModule,
         CourseModule,
         PassportModule,
+        MentorModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
