@@ -3,7 +3,7 @@ import { UseGuards } from "@nestjs/common";
 import { GqlAuthGuard, RolesGuard } from "src/global/auth/auth.guard";
 import { Role } from "src/global/enum";
 import { MailService } from "./service";
-import { GetOneMail, MailInput, MailObjType } from "./type";
+import { FindMailTemplateByIdAndUpdate, GetOneMail, MailInput, MailObjType } from "./type";
 
 @Resolver()
 export class MailResolver {
@@ -18,9 +18,17 @@ export class MailResolver {
     async getListMail() {
         return this.mailService.getListMailTemplate();
     }
+
     @UseGuards(GqlAuthGuard, new RolesGuard([Role.ADMIN]))
     @Mutation(() => MailObjType, { nullable: true })
     async createMailTemplate(@Args('newMailTemplate') newMailTemplate: MailInput) {
         return this.mailService.createMailTemplate(newMailTemplate);
+    }
+
+
+    @UseGuards(GqlAuthGuard, new RolesGuard([Role.ADMIN]))
+    @Mutation(() => MailObjType, { nullable: true })
+    async findMailTemplateByIdAndUpdate(@Args('updateMailTemplate') updateMailTemplate: FindMailTemplateByIdAndUpdate) {
+        return this.mailService.findMailTemplateByIdAndUpdate(updateMailTemplate.id, updateMailTemplate);
     }
 }

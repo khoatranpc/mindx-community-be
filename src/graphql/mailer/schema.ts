@@ -17,6 +17,9 @@ export class Mail extends Document {
 
     @Prop({ type: Boolean, default: false })
     isDelete: boolean;
+
+    @Prop({ type: String, default: '' })
+    type: string;
 }
 
 const MailSchema = SchemaFactory.createForClass(Mail);

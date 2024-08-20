@@ -4,11 +4,13 @@ import { UseGuards } from "@nestjs/common";
 import { GqlAuthGuard } from "src/global/auth/auth.guard";
 import { UserService } from "./service";
 import { AuthenticatedType, User } from "./type";
-import { CreateUserInput, CurrentUserIdInput, UserAuthenticateInput } from "./dto";
+import { CreateUserInput, CurrentUserIdInput, GetOTPInput, UserAuthenticateInput } from "./dto";
+import { MailService } from "../mailer/service";
+import { MailObjType } from "../mailer/type";
 
 @Resolver()
 export class UserResolver {
-    constructor(private readonly userService: UserService) { }
+    constructor(private readonly userService: UserService, private readonly mailService: MailService) { }
 
     // Queries
     @Query(() => [User], { nullable: true, defaultValue: [] })
@@ -39,5 +41,16 @@ export class UserResolver {
         const getCrrUser = context.req.user;
         const getUserIdQuery = currentUserIdInput.userId;
         return await this.userService.getCrrUser(getCrrUser._id as string, getUserIdQuery);
+    }
+
+    @Mutation(() => MailObjType)
+    async getOtpResetPassword(@Args('user') user: GetOTPInput) {
+        const crrUser = await this.userService.findUserByEmail(user.email);
+        if (!crrUser) throw new GraphqlException({
+            statusCode: 400
+        }, 'User is not exist!');
+        const crrMailTemplate = await this.mailService.getOneEmail({ type: 'OTP_RESETPASS' });
+        await this.mailService.sendMail(crrMailTemplate);
+        return crrMailTemplate
     }
 }

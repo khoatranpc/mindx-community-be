@@ -19,6 +19,23 @@ export class GetOneMail {
     id: string
 }
 
+@InputType()
+export class FindMailTemplateByIdAndUpdate {
+    @Field({ nullable: true })
+    @IsNotEmpty({ message: 'Id of mail template is required!' })
+    id: string;
+
+    @Field({ nullable: true })
+    title: string;
+
+    @Field({ nullable: true })
+    html: string;
+
+    @Field({ nullable: true })
+    isDelete: string;
+}
+
+
 @ObjectType()
 export class MailObjType {
     @Field(() => ID, { nullable: true })
