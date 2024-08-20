@@ -7,6 +7,7 @@ import { GqlAuthGuard } from './auth.guard';
 import { UserModule } from 'src/graphql/user/user.module';
 import { CourseModule } from 'src/graphql/course/course.module';
 import { MentorModule } from 'src/graphql/mentor/mentor.module';
+import { MailModule } from 'src/graphql/mailer/mailer.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { MentorModule } from 'src/graphql/mentor/mentor.module';
         CourseModule,
         PassportModule,
         MentorModule,
+        MailModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
