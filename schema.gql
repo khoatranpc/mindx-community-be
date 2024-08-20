@@ -38,15 +38,26 @@ type Mentor {
   approval: Boolean!
 }
 
+type MailObjType {
+  title: String
+  type: String
+  html: String
+}
+
 type Query {
   getAllUser: [User!]
   getTest: String!
   listCourse: [Course!]
   getListMentor(conditional: GetListMentorArgs!): [Mentor!]!
+  getOneMail(conditional: GetOneMail!): MailObjType
 }
 
 input GetListMentorArgs {
   approval: Boolean
+}
+
+input GetOneMail {
+  id: String
 }
 
 type Mutation {

@@ -1,5 +1,6 @@
 export const Collections = {
     USERS: 'users',
     COURSES: 'courses',
-    MENTORS: 'mentors'
+    MENTORS: 'mentors',
+    MAILS: 'mails'
 }

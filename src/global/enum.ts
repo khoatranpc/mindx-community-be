@@ -3,3 +3,6 @@ export enum Role {
     MENTOR = 'MENTOR',
     STUDENT = 'STUDENT'
 }
+export enum MailEnum {
+    SEND_TOP = 'SEND_TOP'
+}

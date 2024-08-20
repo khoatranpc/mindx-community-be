@@ -12,6 +12,7 @@ import { UserModule } from './graphql/user/user.module';
 import { AuthModule } from './global/auth/auth.module';
 import { CourseModule } from './graphql/course/course.module';
 import { MentorModule } from './graphql/mentor/mentor.module';
+import { MailModule } from './graphql/mailer/mailer.module';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { MentorModule } from './graphql/mentor/mentor.module';
     AuthModule,
     CourseModule,
     MentorModule,
+    MailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
