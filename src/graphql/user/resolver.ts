@@ -89,6 +89,7 @@ export class UserResolver {
         if (!checkOtp || (checkOtp && checkOtp.otp !== argsResetPassword.otp)) throw new GraphqlException({
             statusCode: 500
         }, 'OTP has been expired or invalid, try again please!');
+        await checkOtp.deleteOne();
         // pass otp
         await this.userService.resetPassword(crrUser.email, argsResetPassword.newPassword, argsResetPassword.confirmPassword);
         return {
