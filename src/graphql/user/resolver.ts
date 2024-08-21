@@ -4,7 +4,7 @@ import { ObjectId } from "mongoose";
 import { UseGuards } from "@nestjs/common";
 import { GqlAuthGuard } from "src/global/auth/auth.guard";
 import { UserService } from "./service";
-import { AuthenticatedType, OtpSent, User } from "./type";
+import { AuthenticatedType, Message, ResetPasswordOTP, User } from "./type";
 import { CreateUserInput, CurrentUserIdInput, GetOTPInput, UserAuthenticateInput } from "./dto";
 import { MailService } from "../mailer/service";
 import { replacements } from "src/utils";
@@ -45,7 +45,7 @@ export class UserResolver {
         return await this.userService.getCrrUser(getCrrUser._id as string, getUserIdQuery);
     }
 
-    @Mutation(() => OtpSent, { nullable: true })
+    @Mutation(() => Message, { nullable: true })
     async getOtpResetPassword(@Args('user') user: GetOTPInput) {
         const crrUser = await this.userService.findUserByEmail(user.email);
         if (!crrUser) throw new GraphqlException({
@@ -77,5 +77,22 @@ export class UserResolver {
         return {
             message: `OTP has been sent to ${crrUser.email}`
         };
+    }
+
+    @Mutation(() => Message, { nullable: true })
+    async resetPasswordWithOtp(@Args('argsResetPassword') argsResetPassword: ResetPasswordOTP) {
+        const crrUser = await this.userService.findUserByEmail(argsResetPassword.email);
+        if (!crrUser) throw new GraphqlException({
+            statusCode: 500
+        }, 'Not found user!');
+        const checkOtp = await this.userOtpService.getOneOtpByUserId(crrUser._id as ObjectId);
+        if (!checkOtp || (checkOtp && checkOtp.otp !== argsResetPassword.otp)) throw new GraphqlException({
+            statusCode: 500
+        }, 'OTP has been expired or invalid, try again please!');
+        // pass otp
+        await this.userService.resetPassword(crrUser.email, argsResetPassword.newPassword, argsResetPassword.confirmPassword);
+        return {
+            message: 'Change password successful!'
+        }
     }
 }

@@ -42,6 +42,9 @@ export class UserService {
             if (!getUserByEmail) throw { message: 'Email or password is incorrect!' };
             const comparePassword = hashBcr.compare(authData.password, getUserByEmail.password);
             if (!comparePassword) throw { message: 'Email or password is incorrect!' };
+            if (!getUserByEmail.active || getUserByEmail.isDelete) {
+                throw { message: 'You can not access to system, Please contact with Admin - admin@mindx.com.vn!' };
+            }
             const payload = { _id: getUserByEmail._id, userName: getUserByEmail.userName, role: getUserByEmail.role };
             return {
                 access_token: await this.jwtService.signAsync(payload),
@@ -63,6 +66,24 @@ export class UserService {
         const crrUser = await this.userModel.findOne({
             email: new RegExp(email, 'i')
         });
+        return crrUser;
+    }
+
+    async resetPassword(email: string, newPassword: string, confirmPassword: string) {
+        if (newPassword !== confirmPassword) {
+            throw new GraphqlException({
+                statusCode: 400
+            }, 'Password is not match!');
+        }
+        const crrUser = await this.userModel.findOne({ email });
+        if (!crrUser) {
+            throw new GraphqlException({
+                statusCode: 500
+            }, 'Not found user!');
+        }
+        const createNewHashPassword = hashBcr.hashing(newPassword);
+        crrUser.password = createNewHashPassword;
+        await crrUser.save();
         return crrUser;
     }
 }

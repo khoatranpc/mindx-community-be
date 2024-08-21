@@ -12,9 +12,9 @@ export class UserOtpService {
         return await this.userOtpModel.find();
     }
 
-    async getOneOtpByUserId(id: ObjectId) {
+    async getOneOtpByUserId(userId: ObjectId) {
         const crrOtp = await this.userOtpModel.findOne({
-            userId: id
+            userId: userId
         });
         return crrOtp;
     }
