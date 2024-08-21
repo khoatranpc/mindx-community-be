@@ -1,10 +1,10 @@
-import { Document, ObjectId } from "mongoose";
+import mongoose, { Document, ObjectId } from "mongoose";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Collections } from "src/global/collection";
 
 @Schema()
 export class mentorSchema extends Document {
-    @Prop({ required: true, ref: Collections.USERS, type: String, unique: true })
+    @Prop({ required: true, ref: Collections.USERS, type: mongoose.Types.ObjectId, unique: true })
     userId: ObjectId;
 
     @Prop({ required: true })

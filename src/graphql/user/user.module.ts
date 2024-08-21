@@ -6,6 +6,8 @@ import { Collections } from "src/global/collection";
 import { UserSchema } from "./schema";
 import { MailService } from "../mailer/service";
 import MailSchema from "../mailer/schema";
+import UserOTPSchema from "../userOtp/schema";
+import { UserOtpService } from "../userOtp/service";
 
 @Module({
     imports: [
@@ -18,9 +20,13 @@ import MailSchema from "../mailer/schema";
                 name: Collections.MAILS,
                 schema: MailSchema
             },
+            {
+                name: Collections.USEROTPS,
+                schema: UserOTPSchema
+            },
         ])
     ],
-    providers: [UserResolver, UserService, MailService],
+    providers: [UserResolver, UserService, MailService, UserOtpService],
     exports: [UserService]
 })
 export class UserModule {

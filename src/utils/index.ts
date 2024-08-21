@@ -20,8 +20,11 @@ const replacements = (template: string, charReplace: string, valuesReplace: stri
     });
     return getTemplate;
 }
-
+const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+};
 export {
     hashBcr,
-    replacements
+    replacements,
+    generateOTP
 }
