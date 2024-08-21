@@ -13,7 +13,15 @@ const token = {
 
     }
 }
+const replacements = (template: string, charReplace: string, valuesReplace: string[]) => {
+    let getTemplate = template;
+    valuesReplace.forEach(value => {
+        getTemplate = getTemplate.replace(charReplace, value);
+    });
+    return getTemplate;
+}
 
 export {
-    hashBcr
+    hashBcr,
+    replacements
 }

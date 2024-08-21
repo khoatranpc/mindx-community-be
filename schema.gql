@@ -20,13 +20,6 @@ type AuthenticatedType {
   access_token: String
 }
 
-type MailObjType {
-  _id: ID
-  title: String
-  html: String
-  isDelete: String
-}
-
 type Course {
   _id: ID!
   name: String!
@@ -43,6 +36,13 @@ type Mentor {
   courses: [ID!]
   cv: String!
   approval: Boolean!
+}
+
+type MailObjType {
+  _id: ID
+  title: String
+  html: String
+  isDelete: String
 }
 
 type Query {
@@ -66,7 +66,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
   getUser(currentUserIdInput: CurrentUserIdInput!): User!
-  getOtpResetPassword(user: GetOTPInput!): MailObjType!
+  getOtpResetPassword(user: GetOTPInput!): String
   createCourse(createCourseInput: CreateCourseInput!): Course
   createMentor(mentor: CreateMenoterInputType!): Mentor
   createMailTemplate(newMailTemplate: MailInput!): MailObjType

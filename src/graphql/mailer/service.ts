@@ -51,11 +51,14 @@ export class MailService {
             }, error.message);
         }
     }
-    async sendMail(mail: Mail) {
+    async sendMail(mail: {
+        html: string,
+        title: string
+    }, to: string) {
         return await this.mailerService.sendMail({
             html: mail.html,
             subject: mail.title,
-            to: 'khoatranpc603@gmail.com'
+            to: to
         });
     }
 }
