@@ -58,4 +58,11 @@ export class UserService {
         if (!crrUser) throw new GraphqlException({ statusCode: 401 }, 'Not found user!');
         return crrUser.toObject();
     }
+
+    async findUserByEmail(email: string) {
+        const crrUser = await this.userModel.findOne({
+            email: new RegExp(email, 'i')
+        });
+        return crrUser;
+    }
 }

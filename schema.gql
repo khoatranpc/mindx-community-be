@@ -20,6 +20,10 @@ type AuthenticatedType {
   access_token: String
 }
 
+type OtpSent {
+  message: String
+}
+
 type Course {
   _id: ID!
   name: String!
@@ -38,23 +42,39 @@ type Mentor {
   approval: Boolean!
 }
 
+type MailObjType {
+  _id: ID
+  title: String
+  html: String
+  isDelete: String
+}
+
 type Query {
   getAllUser: [User!]
   getTest: String!
   listCourse: [Course!]
   getListMentor(conditional: GetListMentorArgs!): [Mentor!]!
+  getOneMail(conditional: GetOneMail!): MailObjType
+  getListMail: [MailObjType!]
 }
 
 input GetListMentorArgs {
   approval: Boolean
 }
 
+input GetOneMail {
+  id: String
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
   getUser(currentUserIdInput: CurrentUserIdInput!): User!
+  getOtpResetPassword(user: GetOTPInput!): OtpSent
   createCourse(createCourseInput: CreateCourseInput!): Course
   createMentor(mentor: CreateMenoterInputType!): Mentor
+  createMailTemplate(newMailTemplate: MailInput!): MailObjType
+  findMailTemplateByIdAndUpdate(updateMailTemplate: FindMailTemplateByIdAndUpdate!): MailObjType
 }
 
 input CreateUserInput {
@@ -80,6 +100,10 @@ input CurrentUserIdInput {
   userId: String = ""
 }
 
+input GetOTPInput {
+  email: String
+}
+
 input CreateCourseInput {
   _id: ID
   name: String
@@ -94,4 +118,16 @@ input CreateMenoterInputType {
   courses: [ID!] = []
   cv: String
   approval: Boolean! = false
+}
+
+input MailInput {
+  title: String
+  html: String
+}
+
+input FindMailTemplateByIdAndUpdate {
+  id: String
+  title: String
+  html: String
+  isDelete: String
 }

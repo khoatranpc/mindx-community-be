@@ -41,3 +41,9 @@ export class AuthenticatedType {
     @Field({ nullable: true })
     access_token: string;
 }
+
+@ObjectType()
+export class OtpSent {
+    @Field({ nullable: true })
+    message: string;
+}

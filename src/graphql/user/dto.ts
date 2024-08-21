@@ -75,3 +75,12 @@ export class CurrentUserIdInput {
     @Field({ nullable: true, defaultValue: '' })
     userId: string;
 }
+
+@InputType()
+export class GetOTPInput {
+    @Field({ nullable: true })
+    @IsNotEmpty({
+        message: 'Email is required!',
+    })
+    email: string;
+}

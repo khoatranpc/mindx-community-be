@@ -12,20 +12,27 @@ import { UserModule } from './graphql/user/user.module';
 import { AuthModule } from './global/auth/auth.module';
 import { CourseModule } from './graphql/course/course.module';
 import { MentorModule } from './graphql/mentor/mentor.module';
+import { MailModule } from './graphql/mailer/mailer.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 
 @Module({
   imports: [
-    PassportModule,
-    UserModule,
-    AuthModule,
-    CourseModule,
-    MentorModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [config],
     }),
     PassportModule,
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.gmail.com',
+        port: 587,
+        auth: {
+          user: process.env.EMAIL_ACCOUNT,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      },
+    }),
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_KEY,
@@ -55,6 +62,12 @@ import { MentorModule } from './graphql/mentor/mentor.module';
       }),
       inject: [ConfigService],
     }),
+    PassportModule,
+    UserModule,
+    AuthModule,
+    CourseModule,
+    MentorModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
