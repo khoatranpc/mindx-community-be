@@ -1,4 +1,5 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Field, ID, InputType, ObjectType } from "@nestjs/graphql";
+import { IsNotEmpty } from "class-validator";
 
 @ObjectType()
 export class User {
@@ -43,7 +44,26 @@ export class AuthenticatedType {
 }
 
 @ObjectType()
-export class OtpSent {
+export class Message {
     @Field({ nullable: true })
     message: string;
+}
+
+@InputType()
+export class ResetPasswordOTP {
+    @Field({ nullable: true })
+    @IsNotEmpty({ message: 'OTP is required!' })
+    otp: string;
+
+    @Field({ nullable: true })
+    @IsNotEmpty({ message: 'Email is required!' })
+    email: string;
+
+    @Field({ nullable: true })
+    @IsNotEmpty({ message: 'New password is required!' })
+    newPassword: string;
+
+    @Field({ nullable: true })
+    @IsNotEmpty({ message: 'Confirm password is required!' })
+    confirmPassword: string;
 }

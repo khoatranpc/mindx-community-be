@@ -20,7 +20,7 @@ type AuthenticatedType {
   access_token: String
 }
 
-type OtpSent {
+type Message {
   message: String
 }
 
@@ -70,7 +70,8 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   authenticated(userAuthenticateInput: UserAuthenticateInput!): AuthenticatedType!
   getUser(currentUserIdInput: CurrentUserIdInput!): User!
-  getOtpResetPassword(user: GetOTPInput!): OtpSent
+  getOtpResetPassword(user: GetOTPInput!): Message
+  resetPasswordWithOtp(argsResetPassword: ResetPasswordOTP!): Message
   createCourse(createCourseInput: CreateCourseInput!): Course
   createMentor(mentor: CreateMenoterInputType!): Mentor
   createMailTemplate(newMailTemplate: MailInput!): MailObjType
@@ -102,6 +103,13 @@ input CurrentUserIdInput {
 
 input GetOTPInput {
   email: String
+}
+
+input ResetPasswordOTP {
+  otp: String
+  email: String
+  newPassword: String
+  confirmPassword: String
 }
 
 input CreateCourseInput {
